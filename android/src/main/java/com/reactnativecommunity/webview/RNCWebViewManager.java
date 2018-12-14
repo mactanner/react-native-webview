@@ -67,6 +67,8 @@ import java.util.Map;
 import javax.annotation.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
 
 /**
  * Manages instances of {@link WebView}
@@ -182,6 +184,12 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
       dispatchEvent(
           webView,
           new TopLoadingErrorEvent(webView.getId(), eventData));
+    }
+
+    @Override
+    public void onReceivedSslError(WebView webView, SslErrorHandler handler, SslError error) {
+      // Ignore the Ssl error
+      handler.proceed();
     }
 
     protected void emitFinishEvent(WebView webView, String url) {
